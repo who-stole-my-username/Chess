@@ -1,35 +1,46 @@
 package Chess;
 
-public class ChessBoard{
-
-    public static void main(String[] args) {
-
-    }
+public class ChessBoard {
 
     public class Board {
-        private String[][] board;
+        String[][] board = new String[8][8]; 
         public Board() {
-            board = new String[8][8];
-            for(int i = 0; i < 8; i++) {
-                for(int j = 0; j < 8; j++) {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
                     board[i][j] = " "; 
                 }
             }
         }
 
-        public void setPiece(int row, int col, String pR) {
-            if(row < 8 && row >= 0 && col < 8 && col >= 0) {
-                board[row][col] = pR;
-            } 
+        public void printBoard() {
+            System.out.println("-----------------");
+            for (int i = 0; i < 8; i++) {
+                System.out.print("|");
+                for (int j = 0; j < 8; j++) {
+                    System.out.print(board[i][j] + "|");
+                }
+                System.out.println();
+                System.out.println("-----------------");
+            }
         }
     }
 
-    class Piece {
-        Piece King = new Piece();
-        Piece Queen = new Piece();
-        Piece Rook = new Piece();
-        Piece Horse = new Piece();
-        Piece Bishop = new Piece();
-        Piece Pawn = new Piece();
+    public static void black() {
+
+    }
+
+    public static void white() {
+
+    }
+
+    public class Piece {
+        
+    }
+
+    public static void main(String[] args) {
+        ChessBoard game = new ChessBoard(); 
+        ChessBoard.Board myBoard = game.new Board();
+
+        myBoard.printBoard();
     }
 }
