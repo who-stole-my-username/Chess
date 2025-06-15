@@ -27,14 +27,14 @@ public class ChessBoard {
                 board[1][i] = "BP";
             }
  
-            board[1][0] = "WR";
-            board[1][1] = "WN";
-            board[1][2] = "WB";
-            board[1][3] = "WQ";
-            board[1][4] = "WK";
-            board[1][5] = "WB";
-            board[1][6] = "WN";
-            board[1][7] = "WR";
+            board[7][0] = "WR";
+            board[7][1] = "WN";
+            board[7][2] = "WB";
+            board[7][3] = "WQ";
+            board[7][4] = "WK";
+            board[7][5] = "WB";
+            board[7][6] = "WN";
+            board[7][7] = "WR";
             for (int i = 0; i < 8; i++) {
                 board[6][i] = "WP";
             }
@@ -46,9 +46,16 @@ public class ChessBoard {
             for (int i = 0; i < 8; i++) {
                 System.out.print("|");
                 for (int j = 0; j < 8; j++) {
-                    System.out.print(" " + board[i][j] + " |");
+                    String piece = board[i][j];
+                
+
+                    if (piece.length() == 2) {
+                        System.out.print(" " + piece + "|");
+                    } else {
+                        System.out.print(" " + piece + " |");
+                    }
                 }
-                System.out.println();
+                System.out.println(" " + (8 - i));
                 System.out.println("+---+---+---+---+---+---+---+---+");
             }
         }
