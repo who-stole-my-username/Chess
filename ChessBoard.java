@@ -59,9 +59,9 @@ class Pieces {
 
 public class ChessBoard {
 
-    public String curColor = Pieces.White;
+    public static String turn = Pieces.White;
 
-    public class Board {
+    public static class Board {
         Pieces[][] board = new Pieces[8][8];
 
         public Board() {
@@ -118,7 +118,7 @@ public class ChessBoard {
         }
     }
 
-    public int[] pCords(String nota) {
+    public static int[] pCords(String nota) {
         if (nota == null || nota.length() !=2) {
             return null;
         }
@@ -144,10 +144,48 @@ public class ChessBoard {
         return cords;
     }
 
+    public static void Turn() {
+        if (turn.equals(Pieces.White)) {
+            turn = Pieces.Black;
+        } else {
+            turn = Pieces.White;
+        }
+    }
+
     public static void game() {
-        ChessBoard gameInstance = new ChessBoard();
-        ChessBoard.Board myBoard = gameInstance.new Board();
-        myBoard.prBoard();
+        Scanner scnr = new Scanner(System.in);
+        Board board = new Board();
+
+        while (true) {
+            board.prBoard();
+            System.out.println("+-------------------------+");
+            System.out.println("| Enter your desired turn. |");
+            System.out.println("|      Example: g2 f2      |");
+            System.out.println("+-------------------------+");
+            System.out.print("[" + (turn.equals(Pieces.White) ? "Player_1" : "Player_2") + "]$ ");
+            String move = scnr.nextLine();
+            String[] input = move.split(" ");
+
+            if (input.length != 2) {
+                System.out.println("Not a valid move!");
+                continue;
+            }
+
+            int[] fInput = pCords(input[0]);
+            int[] sInput = pCords(input[1]);
+
+            if (fInput == null || sInput == null) {
+                System.out.println("Not valid coordinates!");
+                continue;
+            }
+
+            int sRow = fInput[0];
+            int sCol = fInput[1];
+            int eRow = sInput[0];
+            int eCol = sInput[1];
+
+            Turn();
+        }
     }
 
     public void black() {
@@ -159,9 +197,9 @@ public class ChessBoard {
     }
 
     public static void main(String[] args) {
-        System.out.println("+-------------------------+");
-        System.out.println("|   Type \"Start\" to play  |");
-        System.out.println("+-------------------------+");
+        System.out.println("+--------------------------+");
+        System.out.println("|   Type \"Start\" to play.  |");
+        System.out.println("+--------------------------+");
         System.out.print("[Player_1]$ ");
         Scanner scnr = new Scanner(System.in);
         String inStart = scnr.nextLine();
