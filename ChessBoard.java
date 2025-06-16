@@ -118,6 +118,32 @@ public class ChessBoard {
         }
     }
 
+    public int[] pCords(String nota) {
+        if (nota == null || nota.length() !=2) {
+            return null;
+        }
+
+        char fChar = nota.toLowerCase().charAt(0);
+        char rChar = nota.charAt(1);
+
+        int col = -1;
+        if (fChar >= 'a' && fChar <= 'h') {
+            col = fChar - 'a';
+        }
+
+        int row = 0;
+        if (rChar >= '1' && rChar <= '8') {
+            row = 8 - (rChar - '0');
+        }
+
+        if (row == -1 || col == -1) {
+            return null;
+        }
+
+        int[] cords = {row, col};
+        return cords;
+    }
+
     public static void game() {
         ChessBoard gameInstance = new ChessBoard();
         ChessBoard.Board myBoard = gameInstance.new Board();
