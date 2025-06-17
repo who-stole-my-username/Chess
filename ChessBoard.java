@@ -55,6 +55,14 @@ class Pieces {
         }
         return initColor + initType;
     }
+
+    public String gType() {
+        return type;
+    }
+
+    public String gColor() {
+        return color;
+    }
 }
 
 public class ChessBoard {
@@ -161,11 +169,19 @@ public class ChessBoard {
             System.out.println("+-------------------------+");
             System.out.println("| Enter your desired turn. |");
             System.out.println("|      Example: g2 f2      |");
+            System.out.println("|      Don't type: :q      |");
+            System.out.println("|    Or maybe do it :-)    |");
             System.out.println("+-------------------------+");
             System.out.print("[" + (turn.equals(Pieces.White) ? "Player_1" : "Player_2") + "]$ ");
             String move = scnr.nextLine();
-            String[] input = move.split(" ");
 
+            if (move.equals(":q")) {
+                System.out.println("You either don't know what vim is or you just don't use it!");
+                System.out.println("So You should definitely try vim or neovim!");
+                break;
+            }
+
+            String[] input = move.split(" ");
             if (input.length != 2) {
                 System.out.println("Not a valid move!");
                 continue;
@@ -184,8 +200,19 @@ public class ChessBoard {
             int eRow = sInput[0];
             int eCol = sInput[1];
 
+            Pieces mpiece = board.board[sRow][sCol];
+            if (mpiece.gType().equals(Pieces.Empty) || !mpiece.gColor().equals(turn)) {
+                System.out.println("Not a valid move or it's just not your turn!");
+                continue;
+            }
+
+            board.board[eRow][eCol] = mpiece;
+            board.board[sRow][sCol] = new Pieces(Pieces.Empty, Pieces.None);
+
             Turn();
         }
+
+        scnr.close();
     }
 
     public void black() {
