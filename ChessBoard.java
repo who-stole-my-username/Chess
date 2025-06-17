@@ -160,6 +160,47 @@ public class ChessBoard {
         }
     }
 
+    public boolean IPCS(int sRow, int sCol, int eRow, int eCol, Board board) {
+        if (sRow == eRow) {
+            if (sRow < eRow) {
+                for (int i = sCol + 1; i < eCol; i++) {
+                    if (!board.board[sRow][i].gType().equals(Pieces.Empty)) {
+                        return false;
+                    }
+                }
+            }
+
+            if (sRow > eRow) {
+                for (int i = eCol +1; i < sCol; i++) {
+                    if (!board.board[sRow][i].gType().equals(Pieces.Empty)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        if (sCol == eCol) {
+            if (sCol < eCol) {
+                for (int i = sCol + 1; i < eCol; i++) {
+                    if (!board.board[i][sCol].gType().equals(Pieces.Empty)) {
+                        return false;
+                    }
+                }
+            }
+
+            if (sCol > eCol) {
+                for (int i = eCol; i < sCol; i++) {
+                    if (!board.board[i][sCol].gType().equals(Pieces.Empty)) {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
     public static void game() {
         Scanner scnr = new Scanner(System.in);
         Board board = new Board();
@@ -177,7 +218,7 @@ public class ChessBoard {
 
             if (move.equals(":q")) {
                 System.out.println("You either don't know what vim is or you just don't use it!");
-                System.out.println("So You should definitely try vim or neovim!");
+                System.out.println("So you should definitely try vim or neovim!");
                 break;
             }
 
