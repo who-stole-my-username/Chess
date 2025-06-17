@@ -201,6 +201,25 @@ public class ChessBoard {
         return true;
     }
 
+    public boolean IPCD(int sCol, int eCol, int sRow, int eRow, Board board) {
+        int howDoICallThisIntRow = (eRow > sRow) ? (eRow - sRow) : (sRow - eRow);
+        int howDoICallThisIntCol = (eCol > sCol) ? (eCol - sCol) : (sCol - eCol);
+
+        if (howDoICallThisIntRow != howDoICallThisIntCol) {
+            return false;
+        }
+
+        int someRow = (eRow > sRow) ? 1 : -1;
+        int someCol = (eCol > sCol) ? 1 : -1;
+
+        for (int i = 1; i < howDoICallThisIntRow; i++) {
+            if (!board.board[sRow + i * someRow][sCol + i * someCol].gType().equals(Pieces.Empty)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void game() {
         Scanner scnr = new Scanner(System.in);
         Board board = new Board();
