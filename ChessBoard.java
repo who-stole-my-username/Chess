@@ -220,6 +220,21 @@ public class ChessBoard {
         return true;
     }
 
+    public boolean IVM(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
+        if (sRow == eRow && sCol == eCol) {
+            System.out.println("Not a valid move!");
+            return false;
+        }
+
+        Pieces tP = board.board[eRow][eCol];
+        if (!tP.gType().equals(Pieces.Empty) && tP.gColor().equals(piece.gColor())) {
+            System.out.println("Do you really want to beat up yourself?");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static void game() {
         Scanner scnr = new Scanner(System.in);
         Board board = new Board();
