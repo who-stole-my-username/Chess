@@ -295,6 +295,18 @@ public class ChessBoard {
         return false;
     }
 
+    public static int[] lKing(String kColor, Board board) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Pieces piece = board.board[i][j];
+                if (piece.gType().equals(Pieces.King) && piece.gColor().equals(kColor)) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return null;
+    }
+
     public static boolean IVM(int sRow, int sCol, int eRow, int eCol, Board board) {
         Pieces piece = board.board[sRow][sCol];
 
