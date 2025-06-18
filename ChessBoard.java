@@ -220,7 +220,7 @@ public class ChessBoard {
         return true;
     }
 
-    public static boolean IVM(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
+    public static boolean IVMB(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
         if (sRow == eRow && sCol == eCol) {
             System.out.println("Not a valid move!");
             return false;
@@ -293,6 +293,32 @@ public class ChessBoard {
             return true;
         }
         return false;
+    }
+
+    public static boolean IVM(int sRow, int sCol, int eRow, int eCol, Board board) {
+        Pieces piece = board.board[sRow][sCol];
+
+        if (!IVMB(sRow, sCol, eRow, eCol, board, piece)) {
+            return false;
+        }
+
+        switch (piece.gType()) {
+            case Pieces.Pawn:
+                return mPawn(sRow, sCol, eRow, eCol, board, piece);
+            case Pieces.Rook:
+                return mRook(sRow, sCol, eRow, eCol, board, piece);
+            case Pieces.Knight:
+                return mKnight(sRow, sCol, eRow, eCol, board, piece);
+            case Pieces.Bishop:
+                return mBishop(sRow, sCol, eRow, eCol, board, piece);
+            case Pieces.Queen:
+                return mQueen(sRow, sCol, eRow, eCol, board, piece);
+            case Pieces.King:
+                return mKing(sRow, sCol, eRow, eCol, board, piece);
+            default:
+                System.out.println("Not a valid Piece!");
+                return false;
+        }
     }
 
     public static void game() {
