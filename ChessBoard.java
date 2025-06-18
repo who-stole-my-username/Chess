@@ -363,13 +363,23 @@ public class ChessBoard {
             int eCol = sInput[1];
 
             Pieces mpiece = board.board[sRow][sCol];
+
             if (mpiece.gType().equals(Pieces.Empty) || !mpiece.gColor().equals(turn)) {
                 System.out.println("Not a valid move or it's just not your turn!");
                 continue;
             }
 
-            board.board[eRow][eCol] = mpiece;
-            board.board[sRow][sCol] = new Pieces(Pieces.Empty, Pieces.None);
+            if (!mpiece.gColor().equals(turn)) {
+                System.out.println("Not your turn, dear Mr. not neovim user.");
+                continue;
+            }
+
+            if (IVM(sRow, sCol, eRow, eCol, board)) {
+                board.board[eRow][eCol] = mpiece;
+                board.board[sRow][sCol] = new Pieces(Pieces.Empty, Pieces.None);
+                Turn();
+            } else {
+            }
 
             Turn();
         }
