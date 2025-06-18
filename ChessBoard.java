@@ -1,8 +1,9 @@
 package Chess;
 
-import java.util.Scanner;
+import java.util.Scanner; //importieren des Scanners
 
-class Pieces {
+class Pieces { //die Klasse für alle Schachfiguren und ihre Farben
+    //Figuren
     public static final String King = "King";
     public static final String Queen = "Queen";
     public static final String Bishop = "Bishop";
@@ -10,27 +11,27 @@ class Pieces {
     public static final String Rook = "Rook";
     public static final String Pawn = "Pawn";
     public static final String Empty = "Empty";
-
+    //Farben
     public static final String White = "White";
     public static final String Black = "Black";
     public static final String None = "None";
 
-    String type;
-    String color;
+    String type; //Es git pro Figur einen Type und eine Color
+    String color; //Type um zu wissen welche Figur und Color um zu wissen welche Farbe
 
-    public Pieces(String itype, String icolor) {
+    public Pieces(String itype, String icolor) { //Weisst den neu erstellten Figuren ihre Werte zu
         type = itype;
         color = icolor;
     }
 
-    public String getPiece() {
+    public String gPiece() { //Methode um einzelne Felder ohne eine Figur zu printen
         if (type.equals("Empty")) {
-            return " ";
+            return " "; 
         }
 
-        String initColor = (color.equals(White)) ? "W" : "B";
-        String initType;
-        switch (type) {
+        String initColor = (color.equals(White)) ? "W" : "B"; //Sagt, wenn die Figur weiss ist hat sie den Wert W, wenn nicht hat sie den Wert B für schwarz
+        String initType; //neuer String um den Type als einen Buchstaben zu speichern
+        switch (type) { //Weisst den verschiedenen Figuren ihren Buchstaben zu
             case King:
                 initType = "K";
                 break;
@@ -53,33 +54,33 @@ class Pieces {
                 initType = " ";
                 break;
         }
-        return initColor + initType;
+        return initColor + initType; //Gibt für jede Figur zwei Buchstaben aus, Farbe und Type
     }
 
-    public String gType() {
+    public String gType() { //Methode um den Type einer Figur zu bekommen
         return type;
     }
 
-    public String gColor() {
+    public String gColor() { //Methode um die Farbe einer Figur zu bekommen
         return color;
     }
 }
 
-public class ChessBoard {
+public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der Positionierung und Bewegung von Figuren auf dem Spielbrett zu tun hat
 
-    public static String turn = Pieces.White;
+    public static String turn = Pieces.White; //Weiss beginnt in Schach immer somit ist der turn am Anfang bei Weiss
 
-    public static class Board {
-        Pieces[][] board = new Pieces[8][8];
+    public static class Board { //Die Klasse die für das Darstellen des Spielbretts selber zuständig ist
+        Pieces[][] board = new Pieces[8][8]; //Ein zweidimensionaler Array um das Schachfeld simpel darzustellen
 
-        public Board() {
-            for (int i = 0; i < 8; i++) {
+        public Board() { //Methode mit der man das Spielbrett abrufen kann
+            for (int i = 0; i < 8; i++) { //Zwei for-loops um das Spielbrett zu erstellen
                 for (int j = 0; j < 8; j++) {
-                    board[i][j] = new Pieces(Pieces.Empty, Pieces.None);
+                    board[i][j] = new Pieces(Pieces.Empty, Pieces.None); //Jedes Feld ist zuerst leer
                 }
             }
         
-
+            //Alle Spielfiguren werden auf dem Spielbrett verteilt
             board[0][0] = new Pieces(Pieces.Rook, Pieces.Black);
             board[0][1] = new Pieces(Pieces.Knight, Pieces.Black);
             board[0][2] = new Pieces(Pieces.Bishop, Pieces.Black);
@@ -88,8 +89,8 @@ public class ChessBoard {
             board[0][5] = new Pieces(Pieces.Bishop, Pieces.Black);
             board[0][6] = new Pieces(Pieces.Knight, Pieces.Black);
             board[0][7] = new Pieces(Pieces.Rook, Pieces.Black);
-            for (int i = 0; i < 8; i++) {
-                board[1][i] = new Pieces(Pieces.Pawn, Pieces.Black);
+            for (int i = 0; i < 8; i++) { //For-loop damit nicht jeder Pawn einzeln gesetzt werden muss
+                board[1][i] = new Pieces(Pieces.Pawn, Pieces.Black); 
             }
  
             board[7][0] = new Pieces(Pieces.Rook, Pieces.White);
@@ -105,46 +106,45 @@ public class ChessBoard {
             }
         }
 
-        public void prBoard() {
-            System.out.println("  A   B   C   D   E   F   G   H");
+        public void prBoard() { //Hier die Methode um das Spielfeld schlussendlich zu printen
+            System.out.println("  A   B   C   D   E   F   G   H"); //Felder definierung Rows
             System.out.println("+---+---+---+---+---+---+---+---+");
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 8; i++) { //Zwei for-loops um alle Array-felder zu printen
                 System.out.print("|");
                 for (int j = 0; j < 8; j++) {
-                    String piece = board[i][j].getPiece();
+                    String piece = board[i][j].gPiece(); //Alle Felder zuerst leer ausser sie sind im folgenden if-statement vorhanden
                 
-
-                    if (piece.length() == 2) {
+                    if (piece.length() == 2) { //If statement damit alle Felder mit Figuren weniger Leerschläge haben und somit gleich lang sind wie die anderen
                         System.out.print(" " + piece + "|");
                     } else {
                         System.out.print(" " + piece + " |");
                     }
                 }
-                System.out.println(" " + (8 - i));
+                System.out.println(" " + (8 - i)); //Felder definierung Columns
                 System.out.println("+---+---+---+---+---+---+---+---+");
             }
         }
     }
 
-    public static int[] pCords(String nota) {
-        if (nota == null || nota.length() !=2) {
+    public static int[] pCords(String nota) { //Macht eine Methode mit einem Array, der als Output verlangt wird
+        if (nota == null || nota.length() !=2) { //Die Notierung den Feldern zB. "B7" muss richtig geschreiben vorhanden sein
             return null;
         }
 
-        char fChar = nota.toLowerCase().charAt(0);
+        char fChar = nota.toLowerCase().charAt(0); //Alle Row-Notationen werden zu kleinbuchstaben umgewandelt
         char rChar = nota.charAt(1);
 
-        int col = -1;
-        if (fChar >= 'a' && fChar <= 'h') {
+        int col = -1; //Fals die Notation des Spielers ungültig ist, behält column den Wert -1
+        if (fChar >= 'a' && fChar <= 'h') { //Wandelt den Buchstaben der Notation in eine Zahl um, damit man diese Zahl als positionierung im zweidimensionalen Array verwenden kann
             col = fChar - 'a';
         }
 
-        int row = 0;
-        if (rChar >= '1' && rChar <= '8') {
+        int row = -1; //Fals der Input des Spielers falsch ist behält Row den Wert -1
+        if (rChar >= '1' && rChar <= '8') { //Aus dem String wird eine wirkliche Zahl gemacht, da man mit einem String keinen Array-platz definieren kann
             row = 8 - (rChar - '0');
         }
 
-        if (row == -1 || col == -1) {
+        if (row == -1 || col == -1) { //Fals der Spieler falsche Koordinaten eingegeben hat, wird diese als ungültig erklärt
             return null;
         }
 
@@ -351,6 +351,16 @@ public class ChessBoard {
             }
         }
         return false;
+    }
+
+    public static boolean ICKing(String kColor, Board board) {
+        int[] kingPos = lKing(kColor, board);
+        if (kingPos == null) {
+            return false;
+        }
+
+        String opColor = kColor.equals(Pieces.White) ? Pieces.Black : Pieces.White;
+        return ISA(kingPos[0], kingPos[1], opColor, board);
     }
 
     public static boolean IVM(int sRow, int sCol, int eRow, int eCol, Board board) {
