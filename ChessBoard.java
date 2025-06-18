@@ -285,6 +285,16 @@ public class ChessBoard {
         return (mRook(sRow, sCol, eRow, eCol, board, piece) || mBishop(sRow, sCol, eRow, eCol, board, piece));
     }
 
+    public static boolean mKing(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
+        int someRowAgain = (sRow > eRow) ? (sRow - eRow) : (eRow - sRow);
+        int someColAgain = (sCol > eCol) ? (sCol - eCol) : (eCol - sCol);
+
+        if (someRowAgain <= 1 && someColAgain <= 1) {
+            return true;
+        }
+        return false;
+    }
+
     public static void game() {
 
         Scanner scnr = new Scanner(System.in);
