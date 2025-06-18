@@ -235,6 +235,26 @@ public class ChessBoard {
         }
     }
 
+    public static boolean IVPM(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
+        int fD = (piece.gColor().equals(Pieces.White)) ? -1 : 1;
+        int stRow = (piece.gColor().equals(Pieces.White)) ? 6 : 1;
+
+        if (sCol == eCol) {
+            if (eRow == sRow + fD && board.board[eRow][eCol].gType().equals(Pieces.Empty)) {
+                return true;
+            }
+            if (stRow == sRow && eRow == sRow + 2 * fD && board.board[eRow][eCol].gType().equals(Pieces.Empty) && board.board[sRow + fD][eCol].gType().equals(Pieces.Empty)) {
+                return true;
+            }
+        } else if ((eCol == sCol + 1 || eCol == sCol - 1) && eRow == sRow + fD) {
+            if (!board.board[eRow][eCol].gType().equals(Pieces.Empty) && !board.board[eRow][eCol].gColor().equals(piece.gColor())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public static void game() {
         Scanner scnr = new Scanner(System.in);
         Board board = new Board();
@@ -302,7 +322,6 @@ public class ChessBoard {
         System.out.println("+--------------------------+");
         System.out.println("|   Type \"Start\" to play.  |");
         System.out.println("+--------------------------+");
-        System.out.print("[Player_1]$ ");
         Scanner scnr = new Scanner(System.in);
         String inStart = scnr.nextLine();
 
