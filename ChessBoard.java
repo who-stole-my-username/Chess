@@ -280,6 +280,10 @@ public class ChessBoard {
         }
         return false;
     }
+    
+    public static boolean mQueen(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
+        return (mRook(sRow, sCol, eRow, eCol, board, piece) || mBishop(sRow, sCol, eRow, eCol, board, piece));
+    }
 
     public static void game() {
 
