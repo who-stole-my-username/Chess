@@ -271,7 +271,18 @@ public class ChessBoard {
         return false;
     }
 
+    public static boolean mBishop(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
+        int someRowAgain = (sRow > eRow) ? (sRow - eRow) : (eRow - sRow);
+        int someColAgain = (sCol > eCol) ? (sCol - eCol) : (eCol - sCol);
+
+        if (someRowAgain == someColAgain) {
+            return IPCD(sRow, sCol, eRow, eCol, board);
+        }
+        return false;
+    }
+
     public static void game() {
+
         Scanner scnr = new Scanner(System.in);
         Board board = new Board();
 
