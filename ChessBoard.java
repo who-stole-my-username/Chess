@@ -261,6 +261,16 @@ public class ChessBoard {
         return false;
     }
 
+    public static boolean mKnight(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
+        int someRowAgain = (sRow > eRow) ? (sRow - eRow) : (eRow - sRow);
+        int someColAgain = (sCol > eCol) ? (sCol - eCol) : (eCol - sCol);
+
+        if ((someRowAgain == 2 && someColAgain == 1) || (someRowAgain == 1 && someColAgain == 2)) {
+            return true;
+        }
+        return false;
+    }
+
     public static void game() {
         Scanner scnr = new Scanner(System.in);
         Board board = new Board();
