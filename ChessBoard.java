@@ -107,7 +107,7 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
         }
 
         public void prBoard() { //Hier die Methode um das Spielfeld schlussendlich zu printen
-            System.out.println("  A   B   C   D   E   F   G   H"); //Felder definierung Rows
+            System.out.println("  A   B   C   D   E   F   G   H"); //Felder definierung Columns
             System.out.println("+---+---+---+---+---+---+---+---+");
             for (int i = 0; i < 8; i++) { //Zwei for-loops um alle Array-felder zu printen
                 System.out.print("|");
@@ -120,7 +120,7 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
                         System.out.print(" " + piece + " |");
                     }
                 }
-                System.out.println(" " + (8 - i)); //Felder definierung Columns
+                System.out.println(" " + (8 - i)); //Felder definierung Rows
                 System.out.println("+---+---+---+---+---+---+---+---+");
             }
         }
@@ -144,15 +144,15 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
             row = 8 - (rChar - '0');
         }
 
-        if (row == -1 || col == -1) { //Fals der Spieler falsche Koordinaten eingegeben hat, wird diese als ungültig erklärt
+        if (row == -1 || col == -1) { //Fals der Spieler falsche Koordinaten eingegeben hat, werden diese als ungültig erklärt
             return null;
         }
 
-        int[] cords = {row, col};
+        int[] cords = {row, col}; //Die errechneten Koordinaten werden in einen Array gespeichert und returned
         return cords;
     }
 
-    public static void Turn() {
+    public static void Turn() { //Nach jedem Zug wird diese Methode abgefragt und der Spieler der am Zug ist gewechselt
         if (turn.equals(Pieces.White)) {
             turn = Pieces.Black;
         } else {
@@ -160,9 +160,9 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
         }
     }
 
-    public static boolean IPCS(int sRow, int sCol, int eRow, int eCol, Board board) {
-        if (sRow == eRow) {
-            if (sRow < eRow) {
+    public static boolean IPCS(int sRow, int sCol, int eRow, int eCol, Board board) { //Diese Methode schaut, dass wenn man eine Figur gerade verschiebt, keine andere Figur dazwischen ist
+        if (sRow == eRow) { //horizontal
+            if (sCol < eCol) { //nach rechts
                 for (int i = sCol + 1; i < eCol; i++) {
                     if (!board.board[sRow][i].gType().equals(Pieces.Empty)) {
                         return false;
@@ -170,7 +170,7 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
                 }
             }
 
-            if (sRow > eRow) {
+            if (sCol > eCol) { //nach links
                 for (int i = eCol +1; i < sCol; i++) {
                     if (!board.board[sRow][i].gType().equals(Pieces.Empty)) {
                         return false;
@@ -179,8 +179,8 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
             }
         }
 
-        if (sCol == eCol) {
-            if (sCol < eCol) {
+        if (sCol == eCol) { //vertikal
+            if (sRow < eRow) { //nach oben
                 for (int i = sCol + 1; i < eCol; i++) {
                     if (!board.board[i][sCol].gType().equals(Pieces.Empty)) {
                         return false;
@@ -188,7 +188,7 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
                 }
             }
 
-            if (sCol > eCol) {
+            if (sRow > eRow) { //nach unten
                 for (int i = eCol; i < sCol; i++) {
                     if (!board.board[i][sCol].gType().equals(Pieces.Empty)) {
                         return false;
@@ -197,37 +197,38 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
             }
         } else {
             return false;
+
         }
         return true;
     }
 
-    public static boolean IPCD(int sCol, int eCol, int sRow, int eRow, Board board) {
-        int howDoICallThisIntRow = (eRow > sRow) ? (eRow - sRow) : (sRow - eRow);
-        int howDoICallThisIntCol = (eCol > sCol) ? (eCol - sCol) : (sCol - eCol);
+    public static boolean IPCD(int sCol, int eCol, int sRow, int eRow, Board board) { //Diese Methode schaut, dass wenn man eine Figur Diagonal verschiebt, keine andere Figur dazwischen ist
+        int howDoICallThisIntRow = (eRow > sRow) ? (eRow - sRow) : (sRow - eRow); //Differenz der Rows
+        int howDoICallThisIntCol = (eCol > sCol) ? (eCol - sCol) : (sCol - eCol); //Differenz der Columns
 
-        if (howDoICallThisIntRow != howDoICallThisIntCol) {
+        if (howDoICallThisIntRow != howDoICallThisIntCol) { //Wenn die Differenzen nicht gleich sind ist es nicht diagonal
             return false;
         }
 
-        int someRow = (eRow > sRow) ? 1 : -1;
-        int someCol = (eCol > sCol) ? 1 : -1;
+        int someRow = (eRow > sRow) ? 1 : -1; //Legt die Richtung fest (nach oben oder nach unten)
+        int someCol = (eCol > sCol) ? 1 : -1; //Legt die Richtung fest (nach links oder nach rechts)
 
         for (int i = 1; i < howDoICallThisIntRow; i++) {
-            if (!board.board[sRow + i * someRow][sCol + i * someCol].gType().equals(Pieces.Empty)) {
+            if (!board.board[sRow + i * someRow][sCol + i * someCol].gType().equals(Pieces.Empty)) { //Prüft die Diagonale ab ob es Figuren darauf hat
                 return false;
             }
         }
         return true;
     }
 
-    public static boolean IVMB(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
-        if (sRow == eRow && sCol == eCol) {
+    public static boolean IVMB(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) { //Diese Methode legt grundlegende Bedingung fest
+        if (sRow == eRow && sCol == eCol) { //Fals der Spieler als Start- und Endkoordinaten die gleichen Werte eingegeben hat
             System.out.println("Not a valid move!");
             return false;
         }
 
-        Pieces tP = board.board[eRow][eCol];
-        if (!tP.gType().equals(Pieces.Empty) && tP.gColor().equals(piece.gColor())) {
+        Pieces tP = board.board[eRow][eCol]; //Das Zielfeld muss mit einer gegnerischen Figur besetzt sein oder leer. Es kann keine eigene Figur dort sein
+        if (!tP.gType().equals(Pieces.Empty) && tP.gColor().equals(piece.gColor())) { //Prüft, fals Figuren auf dem Zielfeld sind, ob diese die eigenen sind oder nicht
             System.out.println("Do you really want to beat up yourself?");
             return false;
         } else {
@@ -235,18 +236,18 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
         }
     }
 
-    public static boolean mPawn(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
-        int fD = (piece.gColor().equals(Pieces.White)) ? -1 : 1;
-        int stRow = (piece.gColor().equals(Pieces.White)) ? 6 : 1;
+    public static boolean mPawn(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) { //Diese Methode legt die Regeln für den Pawn fest
+        int fD = (piece.gColor().equals(Pieces.White)) ? -1 : 1; //Weiss kann Pawn's nur nach oben schieben und scharz nur nach unten
+        int stRow = (piece.gColor().equals(Pieces.White)) ? 6 : 1; //Start Row der Pawns (weiss -> 1, schwarz -> 6)
 
-        if (sCol == eCol) {
+        if (sCol == eCol) { //Schaut ob der Zug gültig ist
             if (eRow == sRow + fD && board.board[eRow][eCol].gType().equals(Pieces.Empty)) {
                 return true;
             }
             if (stRow == sRow && eRow == sRow + 2 * fD && board.board[eRow][eCol].gType().equals(Pieces.Empty) && board.board[sRow + fD][eCol].gType().equals(Pieces.Empty)) {
-                return true;
+                return true; //Fals ein Pawn noch auf dem Startfeld ist kann er um zwei nach vorne gezogen werden, wenn dort keine andere Figur steht
             }
-        } else if ((eCol == sCol + 1 || eCol == sCol - 1) && eRow == sRow + fD) {
+        } else if ((eCol == sCol + 1 || eCol == sCol - 1) && eRow == sRow + fD) { //Wenn man diagonal jemanden schlagen will
             if (!board.board[eRow][eCol].gType().equals(Pieces.Empty) && !board.board[eRow][eCol].gColor().equals(piece.gColor())) {
                 return true;
             }
@@ -254,64 +255,64 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
         return false;
     }
 
-    public static boolean mRook(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
-        if ((sRow == eRow && sCol != eCol) || (sRow != eRow && sCol == eCol)) {
-            return IPCS(sRow, sCol, eRow, eCol, board);
+    public static boolean mRook(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) { //Diese Methode legt die Regeln für den Rook fest
+        if ((sRow == eRow && sCol != eCol) || (sRow != eRow && sCol == eCol)) { //Nicht diagonal nur gerade
+            return IPCS(sRow, sCol, eRow, eCol, board); //Gibt Parameter an IPCS-Methode, um zu schauen, ob alle Felder frei sind
         }
         return false;
     }
 
-    public static boolean mKnight(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
-        int someRowAgain = (sRow > eRow) ? (sRow - eRow) : (eRow - sRow);
-        int someColAgain = (sCol > eCol) ? (sCol - eCol) : (eCol - sCol);
+    public static boolean mKnight(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) { //Diese Methode legt die Regeln für den Knight fest
+        int someRowAgain = (sRow > eRow) ? (sRow - eRow) : (eRow - sRow); //Differenz der Rows
+        int someColAgain = (sCol > eCol) ? (sCol - eCol) : (eCol - sCol); //Differenz der Columns
 
-        if ((someRowAgain == 2 && someColAgain == 1) || (someRowAgain == 1 && someColAgain == 2)) {
+        if ((someRowAgain == 2 && someColAgain == 1) || (someRowAgain == 1 && someColAgain == 2)) { //Knight kann immer nur 2 Felder in eine Richtung und dann 1 Feld senkrecht dazu
             return true;
         }
         return false;
     }
 
-    public static boolean mBishop(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
-        int someRowAgain = (sRow > eRow) ? (sRow - eRow) : (eRow - sRow);
-        int someColAgain = (sCol > eCol) ? (sCol - eCol) : (eCol - sCol);
+    public static boolean mBishop(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) { //Diese Methode legt die Regeln für den Bishop fest
+        int someRowAgain = (sRow > eRow) ? (sRow - eRow) : (eRow - sRow); //Differenz der Rows
+        int someColAgain = (sCol > eCol) ? (sCol - eCol) : (eCol - sCol); //Differenz der Columns
 
-        if (someRowAgain == someColAgain) {
-            return IPCD(sRow, sCol, eRow, eCol, board);
+        if (someRowAgain == someColAgain) { //Nur diagonal und nicht gerade
+            return IPCD(sRow, sCol, eRow, eCol, board); //Gibt die Parameter an IPCD-Methode weiter, um zu schauen, ob alle Felder frei sind
         }
         return false;
     }
     
-    public static boolean mQueen(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
-        return (mRook(sRow, sCol, eRow, eCol, board, piece) || mBishop(sRow, sCol, eRow, eCol, board, piece));
+    public static boolean mQueen(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) { //Diese Methode legt die Regeln für die Queen fest
+        return (mRook(sRow, sCol, eRow, eCol, board, piece) || mBishop(sRow, sCol, eRow, eCol, board, piece)); //Die Queen bewegt sich gleich wie der Rook und der Bishop zusammen
     }
 
-    public static boolean mKing(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
-        int someRowAgain = (sRow > eRow) ? (sRow - eRow) : (eRow - sRow);
-        int someColAgain = (sCol > eCol) ? (sCol - eCol) : (eCol - sCol);
+    public static boolean mKing(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) { //Diese Methode legt die Regeln für den King fest
+        int someRowAgain = (sRow > eRow) ? (sRow - eRow) : (eRow - sRow); //Differenz der Rows
+        int someColAgain = (sCol > eCol) ? (sCol - eCol) : (eCol - sCol); //Differenz der Columns
 
-        if (someRowAgain <= 1 && someColAgain <= 1) {
+        if (someRowAgain <= 1 && someColAgain <= 1) { //King kann sich nur 1 Feld in jede Richtung bewegen
             return true;
         }
         return false;
     }
 
-    public static int[] lKing(String kColor, Board board) {
+    public static int[] lKing(String kColor, Board board) { //Diese Methode findet die Position des Kings der angegebenen Farbe heraus
         for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Pieces piece = board.board[i][j];
-                if (piece.gType().equals(Pieces.King) && piece.gColor().equals(kColor)) {
-                    return new int[]{i, j};
+            for (int j = 0; j < 8; j++) { 
+                Pieces piece = board.board[i][j]; //Scannt alle Felder des Schachbretts
+                if (piece.gType().equals(Pieces.King) && piece.gColor().equals(kColor)) { //Wenn der King der entsprechenden Farbe gefunden wird
+                    return new int[]{i, j}; //Werden die Koordinaten in einem Array gespeichert und returned
                 }
             }
         }
         return null;
     }
 
-    public static boolean ISA(int row, int col, String aColor, Board board) {
+    public static boolean ISA(int row, int col, String aColor, Board board) { //Diese Methode überprüft, ob ein bestimmtes Feld von einer gegnerischen Figur angegriffem wird
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Pieces atk = board.board[i][j];
-                if (!atk.gType().equals(Pieces.Empty) && atk.gColor().equals(aColor)) {
+                if (!atk.gType().equals(Pieces.Empty) && atk.gColor().equals(aColor)) { //Wenn das Feld eine Figur enthält und ich gang go schloofe
                     Pieces oTar = board.board[row][col];
                     board.board[row][col] = new Pieces(Pieces.Empty, Pieces.None);
 
