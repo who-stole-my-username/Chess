@@ -307,6 +307,52 @@ public class ChessBoard {
         return null;
     }
 
+    public static boolean ISA(int row, int col, String aColor, Board board) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Pieces atk = board.board[i][j];
+                if (!atk.gType().equals(Pieces.Empty) && atk.gColor().equals(aColor)) {
+                    Pieces oTar = board.board[row][col];
+                    board.board[row][col] = new Pieces(Pieces.Empty, Pieces.None);
+
+                    boolean cAtk = false;
+                    switch (atk.gType()) {
+                        case Pieces.Pawn:
+                            int forwardDirection = (atk.gColor().equals(Pieces.White)) ? -1 : 1;
+                            if (Math.abs(col - j) == 1 && row == i + forwardDirection) {
+                                cAtk = true;
+                            }
+                            break;
+                        case Pieces.Rook:
+                            cAtk = mRook(i, j, row, col, board, atk);
+                            break;
+                        case Pieces.Knight:
+                            cAtk = mKnight(i, j, row, col, board, atk);
+                            break;
+                        case Pieces.Bishop:
+                            cAtk = mBishop(i, j, row, col, board, atk);
+                            break;
+                        case Pieces.Queen:
+                            cAtk = mQueen(i, j, row, col, board, atk);
+                            break;
+                        case Pieces.King:
+                            boolean someRow = (row == i || row == i + 1 || row == i - 1);
+                            boolean someCol = (col == j || col == j + 1 || col == j - 1);
+                            cAtk = someRow && someCol;
+                            break;
+                    }
+
+                    board.board[row][col] = oTar;
+
+                    if (cAtk) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public static boolean IVM(int sRow, int sCol, int eRow, int eCol, Board board) {
         Pieces piece = board.board[sRow][sCol];
 
