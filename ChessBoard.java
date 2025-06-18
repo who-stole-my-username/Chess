@@ -160,7 +160,7 @@ public class ChessBoard {
         }
     }
 
-    public boolean IPCS(int sRow, int sCol, int eRow, int eCol, Board board) {
+    public static boolean IPCS(int sRow, int sCol, int eRow, int eCol, Board board) {
         if (sRow == eRow) {
             if (sRow < eRow) {
                 for (int i = sCol + 1; i < eCol; i++) {
@@ -201,7 +201,7 @@ public class ChessBoard {
         return true;
     }
 
-    public boolean IPCD(int sCol, int eCol, int sRow, int eRow, Board board) {
+    public static boolean IPCD(int sCol, int eCol, int sRow, int eRow, Board board) {
         int howDoICallThisIntRow = (eRow > sRow) ? (eRow - sRow) : (sRow - eRow);
         int howDoICallThisIntCol = (eCol > sCol) ? (eCol - sCol) : (sCol - eCol);
 
@@ -220,7 +220,7 @@ public class ChessBoard {
         return true;
     }
 
-    public boolean IVM(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
+    public static boolean IVM(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
         if (sRow == eRow && sCol == eCol) {
             System.out.println("Not a valid move!");
             return false;
@@ -235,7 +235,7 @@ public class ChessBoard {
         }
     }
 
-    public static boolean IVPM(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
+    public static boolean mPawn(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
         int fD = (piece.gColor().equals(Pieces.White)) ? -1 : 1;
         int stRow = (piece.gColor().equals(Pieces.White)) ? 6 : 1;
 
@@ -254,6 +254,12 @@ public class ChessBoard {
         return false;
     }
 
+    public static boolean mRook(int sRow, int sCol, int eRow, int eCol, Board board, Pieces piece) {
+        if ((sRow == eRow && sCol != eCol) || (sRow != eRow && sCol == eCol)) {
+            return IPCS(sRow, sCol, eRow, eCol, board);
+        }
+        return false;
+    }
 
     public static void game() {
         Scanner scnr = new Scanner(System.in);
