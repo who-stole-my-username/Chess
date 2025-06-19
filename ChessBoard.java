@@ -433,7 +433,7 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
 
             Pieces mpiece = board.board[sRow][sCol]; //Die Start-Koordinaten des gewünsten Zuges
 
-            if (mpiece.gType().equals(Pieces.Empty))) {
+            if (mpiece.gType().equals(Pieces.Empty)) {
                 System.out.println("Not a valid move, there is no piece on that field!"); //Falls es keine Figur auf dem gewünsten Feld hat, wird wiederholt
                 continue;
             }
