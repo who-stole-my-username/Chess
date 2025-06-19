@@ -458,6 +458,7 @@ public class ChessBoard { //Die Klasse in der alles definiert wird, was mit der 
         System.out.println("+--------------------------+"); //Startmenu
         System.out.println("|   Type \"Start\" to play.  |");
         System.out.println("+--------------------------+");
+        System.out.print("[Player_1]$ "); //Username für ersten User
         Scanner scnr = new Scanner(System.in); //Neuer Scanner
         String inStart = scnr.nextLine();
 
