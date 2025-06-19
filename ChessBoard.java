@@ -451,14 +451,17 @@ public class ChessBoard { // Die Klasse in der alles definiert wird, was mit der
             }
         }
 
-        scnr.close(); // Scanner wird geschlossen
+        scnr.close(); // Scanner wird geschlossenhttps://github.com/M0RP43U588/Chess
     }
 
     public static void main(String[] args) { // Main Methode
         System.out.println("+--------------------------+"); // Startmenu
         System.out.println("|   Type \"Start\" to play.  |");
         System.out.println("+--------------------------+");
-        Scanner scnr = new Scanner(System.in); // Neuer Scanner
+
+        System.out.print("[Player_1]$ "); // Username für ersten User
+        Scanner scnr = new Scanner(System.in); //Neuer Scanner
+
         String inStart = scnr.nextLine();
 
         if (inStart.equals("Start")) { // Der Spieler muss Start schreiben
